@@ -1,0 +1,16 @@
+# Visual Studio
+.vs/
+x64/
+Debug/
+Release/
+*.vcxproj.user
+*.VC.db
+*.opendb
+
+# Temporales
+*.vcf~
+*.tmp
+
+# Sistema
+Thumbs.db
+.DS_Store
