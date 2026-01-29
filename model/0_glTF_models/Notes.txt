@@ -1,1 +1,0 @@
-Zipped files contain only .glTF format files. 
