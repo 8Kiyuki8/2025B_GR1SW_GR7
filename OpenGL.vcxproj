@@ -71,7 +71,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Anna\Documents\Visual Studio 2022\OpenGL_Stuff\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)third_party;$(UserProfile)\Documents\Visual Studio 2022\OpenGL\OpenGL_Stuff\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir)third_party;$(UserProfile)\Documents\Visual Studio 2022\OpenGL\OpenGL_Stuff\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)third_party;$(UserProfile)\Documents\Visual Studio 2022\OpenGL\OpenGL_Stuff\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir)third_party;$(UserProfile)\Documents\Visual Studio 2022\OpenGL\OpenGL_Stuff\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -109,8 +118,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Anna\Documents\Visual Studio 2022\OpenGL_Stuff\Library;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(UserProfile)\Documents\Visual Studio 2022\OpenGL\OpenGL_Stuff\Library;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc143-mtd.lib;gdi32.lib;user32.lib;shell32.lib;advapi32.lib;ole32.lib;winmm.lib;ucrt.lib;vcruntime.lib;msvcrt.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,10 +134,12 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(UserProfile)\Documents\Visual Studio 2022\OpenGL\OpenGL_Stuff\Library;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc143-mt.lib;gdi32.lib;user32.lib;shell32.lib;advapi32.lib;ole32.lib;winmm.lib;ucrt.lib;vcruntime.lib;msvcrt.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Desktop\Sources\glad\src\glad.c" />
+    <ClCompile Include="$(UserProfile)\Documents\Visual Studio 2022\OpenGL\OpenGL_Stuff\Library\glad.c" />
     <ClCompile Include="NightRideSimulator.cpp" />
   </ItemGroup>
   <ItemGroup>

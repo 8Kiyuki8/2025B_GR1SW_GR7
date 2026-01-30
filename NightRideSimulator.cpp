@@ -102,13 +102,13 @@ int main()
     stbi_set_flip_vertically_on_load(true);
 
     // MOTO
-    Model moto("C:/Users/pc/Documents/Visual Studio 2022/OpenGL/OpenGL/model/motorbike/motorbike.obj");
+    Model moto("model/motorbike/motorbike.obj");
 
     // POSTE DE LUZ
-    Model poste("C:/Users/pc/Documents/Visual Studio 2022/OpenGL/OpenGL/model/poste_de_luz/poste_de_luz.obj");
+    Model poste("model/poste_de_luz/poste_de_luz.obj");
 
     // ARBOL (La ruta que me diste)
-    Model arbol("C:/Users/pc/Documents/Visual Studio 2022/OpenGL/OpenGL/model/arbol/arbol.obj");
+    Model arbol("model/arbol/arbol.obj");
 
     stbi_set_flip_vertically_on_load(false);
     // =================================================================================
