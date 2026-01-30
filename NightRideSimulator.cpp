@@ -47,6 +47,9 @@ float lastFrame = 0.0f;
 // Recursos Globales
 unsigned int planeVAO, planeVBO, floorTexture;
 glm::vec3 fogColor = glm::vec3(0.0f, 0.05f, 0.15f);
+bool isBraking = false;                // Para saber si la tecla S está presionada
+unsigned int cubeVAO = 0, cubeVBO = 0; // Para poder dibujar el cubo
+void renderCube();                     // Prototipo de la función
 
 // LUNA
 glm::vec3 moonPos = glm::vec3(0.0f, 100.0f, 300.0f);
@@ -55,6 +58,7 @@ glm::vec3 moonPos = glm::vec3(0.0f, 100.0f, 300.0f);
 float currentSpeed = 0.0f;
 float acceleration = 15.0f;
 float deceleration = 25.0f;
+float brakingPower = 80.0f;
 float maxSpeedNormal = 90.0f;
 float maxSpeedTurbo = 120.0f;
 
@@ -250,6 +254,87 @@ int main()
         ourShader.setMat4("model", model);
         moto.Draw(ourShader);
 
+        // =========================================================
+        // --- LUCES DE FRENO (CONFIGURACIÓN FINAL) ---
+        // =========================================================
+        lampShader.use();
+        lampShader.setMat4("projection", projection);
+        lampShader.setMat4("view", view);
+
+        // Color: Rojo Brillante (1.0) si frena, Rojo Oscuro (0.4) si no
+        glm::vec3 tailColor = isBraking ? glm::vec3(1.0f, 0.0f, 0.0f) : glm::vec3(0.4f, 0.0f, 0.0f);
+        lampShader.setVec3("lightColor", tailColor);
+
+        // --- CALIBRACIÓN DE POSICIÓN ---
+        float h = 1.1f;     // Altura
+        float backX = 4.3f; // Profundidad (Atrás)
+        float sepZ = 0.20f; // Separación entre focos
+
+        // Variable para alinear a la derecha (Corrige el desfase del modelo)
+        float ajusteDerecha = -0.26f;
+
+        // Escala del rectángulo
+        glm::vec3 scaleLight = glm::vec3(0.15f, 0.09f, 0.09f);
+
+        // --- LUZ 1 (Izquierda) ---
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, bikePos);
+        model = glm::rotate(model, glm::radians(bikeAngle - 90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+        // Aplicamos el ajuste lateral
+        model = glm::translate(model, glm::vec3(backX, h, -sepZ + ajusteDerecha));
+
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::scale(model, scaleLight);
+        lampShader.setMat4("model", model);
+        renderCube();
+
+        // --- LUZ 2 (Derecha) ---
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, bikePos);
+        model = glm::rotate(model, glm::radians(bikeAngle - 90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+        // Aplicamos el ajuste lateral
+        model = glm::translate(model, glm::vec3(backX, h, sepZ + ajusteDerecha));
+
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::scale(model, scaleLight);
+        lampShader.setMat4("model", model);
+        renderCube();
+
+        // =========================================================
+        // --- FARO DELANTERO (CENTRADO) ---
+        // =========================================================
+        lampShader.use();
+        lampShader.setMat4("projection", projection);
+        lampShader.setMat4("view", view);
+
+        // 1. Color BLANCO intenso
+        lampShader.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+
+        // 2. Posición
+        float frontX = 0.6f;     // Tu valor
+        float alturaFaro = 1.6f; // Tu valor
+
+        // Corrección de centro (Mismo valor que las luces traseras)
+        // Esto mueve la luz hacia la izquierda de la pantalla para centrarla.
+        float correccionCentro = -0.26f;
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, bikePos);
+
+        // Rotamos igual que la moto
+        model = glm::rotate(model, glm::radians(bikeAngle - 90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+        // Nos movemos al frente (frontX), arriba (alturaFaro) y CENTRO (correccionCentro)
+        model = glm::translate(model, glm::vec3(frontX, alturaFaro, correccionCentro));
+
+        // Hacemos la esfera pequeña
+        model = glm::scale(model, glm::vec3(0.15f));
+
+        lampShader.setMat4("model", model);
+        renderSphere();
+
         // =================================================================================
         // --- MAPA: AVENIDA CENTRAL ---
         // =================================================================================
@@ -263,7 +348,7 @@ int main()
 
         // 2. AJUSTE FINO DE BOMBILLAS (NO TOCADO)
         float alturaFoco = 13.0f;
-        float distanciaBrazo = .0f;
+        float distanciaBrazo = 3.0f;
 
         // ---> ¡VARIABLE TUYA! CORRECCIÓN HORIZONTAL (NO TOCADA) <---
         float correccionLucesX = 7.0f;
@@ -293,6 +378,7 @@ int main()
 
             // --- BOMBILLAS (LUCES) ---
             lampShader.use();
+            lampShader.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
             lampShader.setMat4("projection", projection);
             lampShader.setMat4("view", view);
 
@@ -439,11 +525,13 @@ void processInput(GLFWwindow *window)
     }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
+        isBraking = true;
         if (currentSpeed > -10.0f)
-            currentSpeed -= acceleration * deltaTime;
+            currentSpeed -= brakingPower * deltaTime;
     }
     else
     {
+        isBraking = false;
         if (currentSpeed > 0.1f)
             currentSpeed -= deceleration * deltaTime;
         else if (currentSpeed < -0.1f)
@@ -573,4 +661,70 @@ void renderSphere()
     }
     glBindVertexArray(sphereVAO);
     glDrawElements(GL_TRIANGLE_STRIP, indexCount, GL_UNSIGNED_INT, 0);
+}
+
+void renderCube()
+{
+    if (cubeVAO == 0)
+    {
+        float vertices[] = {
+            // Posición            // Normales         // UVs
+            -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+            0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+            0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+            -0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+
+            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+            0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+            -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+
+            -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+            -0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            -0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+            -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+
+            0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+            0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+            0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+
+            -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+            0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+            0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+            0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+            -0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+
+            -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+            0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+            0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+            -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+            -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
+        glGenVertexArrays(1, &cubeVAO);
+        glGenBuffers(1, &cubeVBO);
+        glBindVertexArray(cubeVAO);
+        glBindVertexArray(cubeVAO);
+        glBindVertexArray(cubeVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+    }
+    glBindVertexArray(cubeVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 }
