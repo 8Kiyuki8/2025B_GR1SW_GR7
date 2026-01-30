@@ -9,6 +9,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <filesystem>
 
 #include <learnopengl/mesh.h>
 #include <learnopengl/shader.h>
@@ -205,8 +206,11 @@ private:
 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma)
 {
-    string filename = string(path);
-    filename = directory + '/' + filename;
+    std::filesystem::path inputPath(path);
+    std::filesystem::path fullPath = inputPath.is_absolute()
+        ? inputPath
+        : (std::filesystem::path(directory) / inputPath);
+    string filename = fullPath.lexically_normal().string();
 
     unsigned int textureID;
     glGenTextures(1, &textureID);
@@ -236,7 +240,7 @@ unsigned int TextureFromFile(const char *path, const string &directory, bool gam
     }
     else
     {
-        std::cout << "Texture failed to load at path: " << path << std::endl;
+        std::cerr << "FAILED TEXTURE PATH: " << filename << std::endl;
         stbi_image_free(data);
     }
 

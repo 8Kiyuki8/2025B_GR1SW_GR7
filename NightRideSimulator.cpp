@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <filesystem>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <learnopengl/stb_image.h>
@@ -66,8 +67,23 @@ glm::vec3 pointLightPositions[] = {
     glm::vec3(0.0f, 4.5f, 20.0f),
     glm::vec3(0.0f, 4.5f, -20.0f)};
 
+static const std::filesystem::path &projectRoot()
+{
+    static const std::filesystem::path root = std::filesystem::path(__FILE__).parent_path();
+    return root;
+}
+
+static std::string resolvePath(const std::string &relative)
+{
+    return (projectRoot() / relative).lexically_normal().generic_string();
+}
+
 int main()
 {
+    std::cout << "CWD (before): " << std::filesystem::current_path().string() << std::endl;
+    std::filesystem::current_path(projectRoot());
+    std::cout << "CWD (after): " << std::filesystem::current_path().string() << std::endl;
+
     // 1. INICIALIZACIÓN
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -94,8 +110,8 @@ int main()
     camera.Yaw = 90.0f;
 
     // 2. SHADERS
-    Shader ourShader("shaders/shader_Examen_B2.vs", "shaders/shader_Examen_B2.fs");
-    Shader lampShader("shaders/lamp.vs", "shaders/lamp.fs");
+    Shader ourShader(resolvePath("shaders/shader_Examen_B2.vs").c_str(), resolvePath("shaders/shader_Examen_B2.fs").c_str());
+    Shader lampShader(resolvePath("shaders/lamp.vs").c_str(), resolvePath("shaders/lamp.fs").c_str());
 
     // =================================================================================
     // 3. CARGAR MODELOS
@@ -103,13 +119,13 @@ int main()
     stbi_set_flip_vertically_on_load(true);
 
     // MOTO
-    Model moto("model/motorbike/motorbike.obj");
+    Model moto(resolvePath("model/motorbike/motorbike.obj"));
 
     // POSTE DE LUZ
-    Model poste("model/poste_de_luz/poste_de_luz.obj");
+    Model poste(resolvePath("model/poste_de_luz/poste_de_luz.obj"));
 
     // ARBOL (La ruta que me diste)
-    Model arbol("model/arbol/arbol.obj");
+    Model arbol(resolvePath("model/arbol/arbol.obj"));
 
     stbi_set_flip_vertically_on_load(false);
     // =================================================================================
@@ -364,7 +380,8 @@ unsigned int loadTexture(char const *path)
     unsigned int textureID;
     glGenTextures(1, &textureID);
     int width, height, nrComponents;
-    unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
+    std::string fullPath = resolvePath(path);
+    unsigned char *data = stbi_load(fullPath.c_str(), &width, &height, &nrComponents, 0);
     if (data)
     {
         GLenum format = (nrComponents == 1) ? GL_RED : (nrComponents == 3 ? GL_RGB : GL_RGBA);
