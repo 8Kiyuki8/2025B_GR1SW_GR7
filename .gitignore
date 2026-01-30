@@ -7,6 +7,20 @@ Release/
 *.VC.db
 *.opendb
 
+# Build outputs
+build/
+*.exe
+*.obj
+*.ilk
+*.pdb
+*.lib
+
+# Editor settings
+.vscode/
+
+# Archives
+third_party/*.zip
+
 # Temporales
 *.vcf~
 *.tmp
