@@ -73,7 +73,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Night Ride - Arboles y Postes", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Night Ride - Final", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -90,7 +90,7 @@ int main()
         return -1;
     glEnable(GL_DEPTH_TEST);
 
-    camera.Yaw = 90.0f;
+    camera.Yaw = -90.0f;
 
     // 2. SHADERS
     Shader ourShader("shaders/shader_Examen_B2.vs", "shaders/shader_Examen_B2.fs");
@@ -107,8 +107,11 @@ int main()
     // POSTE DE LUZ
     Model poste("C:/Users/pc/Documents/Visual Studio 2022/OpenGL/OpenGL/model/poste_de_luz/poste_de_luz.obj");
 
-    // ARBOL (La ruta que me diste)
+    // ARBOL
     Model arbol("C:/Users/pc/Documents/Visual Studio 2022/OpenGL/OpenGL/model/arbol/arbol.obj");
+
+    // ---> AGREGADO: LA CASA <---
+    Model casaModel("C:/Users/pc/Documents/Visual Studio 2022/OpenGL/OpenGL/model/casa/casa.obj");
 
     stbi_set_flip_vertically_on_load(false);
     // =================================================================================
@@ -248,23 +251,21 @@ int main()
         moto.Draw(ourShader);
 
         // =================================================================================
-        // --- MAPA: AVENIDA CENTRAL (CORRECCIÓN FINAL DE POSICIÓN DE LUCES) ---
+        // --- MAPA: AVENIDA CENTRAL ---
         // =================================================================================
 
-        // --- VARIABLES DE CALIBRACIÓN ---
+        // --- VARIABLES DE CALIBRACIÓN (TUS VALORES ORIGINALES) ---
         float scalePoste = 350.0f;
         float scaleArbol = 30.0f;
 
-        // 1. CENTRADO DEL POSTE (Variable existente)
+        // 1. CENTRADO DEL POSTE (Variable existente - NO TOCADA)
         float ajusteCentroX = -6.5f;
 
-        // 2. AJUSTE FINO DE BOMBILLAS
-        float alturaFoco = 13.0f;   // Altura correcta
-        float distanciaBrazo = .0f; // Separación entre bombillas
+        // 2. AJUSTE FINO DE BOMBILLAS (NO TOCADO)
+        float alturaFoco = 13.0f;
+        float distanciaBrazo = .0f;
 
-        // ---> ¡NUEVA VARIABLE! CORRECCIÓN HORIZONTAL <---
-        // Como las luces están a la izquierda, sumamos para moverlas a la DERECHA.
-        // Prueba con 2.0f. Si es mucho, baja a 1.0f. Si es poco, sube a 3.0f.
+        // ---> ¡VARIABLE TUYA! CORRECCIÓN HORIZONTAL (NO TOCADA) <---
         float correccionLucesX = 7.0f;
 
         // 3. SEPARACIÓN DE ÁRBOLES
@@ -275,7 +276,7 @@ int main()
         float posteSpacing = 40.0f;
         float treeSpacing = 20.0f;
 
-        // A) BUCLE DE POSTES CENTRALES
+        // A) BUCLE DE POSTES CENTRALES (TU LÓGICA INTACTA)
         for (float z = startZ; z > endZ; z -= posteSpacing)
         {
             // --- POSTE ---
@@ -297,7 +298,6 @@ int main()
 
             // Foco Izquierdo
             model = glm::mat4(1.0f);
-            // ¡AQUÍ SUMAMOS LA CORRECCIÓN! (+ correccionLucesX)
             model = glm::translate(model, glm::vec3(ajusteCentroX - distanciaBrazo + correccionLucesX, alturaFoco, z));
             model = glm::scale(model, glm::vec3(0.35f));
             lampShader.setMat4("model", model);
@@ -305,14 +305,13 @@ int main()
 
             // Foco Derecho
             model = glm::mat4(1.0f);
-            // ¡AQUÍ TAMBIÉN! (+ correccionLucesX)
             model = glm::translate(model, glm::vec3(ajusteCentroX + distanciaBrazo + correccionLucesX, alturaFoco, z));
             model = glm::scale(model, glm::vec3(0.35f));
             lampShader.setMat4("model", model);
             renderSphere();
         }
 
-        // B) BUCLE DE ÁRBOLES (Igual que antes)
+        // B) BUCLE DE ÁRBOLES (TU LÓGICA INTACTA)
         ourShader.use();
         ourShader.setVec3("spotLight.diffuse", 0.8f, 0.8f, 0.8f);
         for (float z = startZ; z > endZ; z -= treeSpacing)
@@ -329,6 +328,35 @@ int main()
             ourShader.setMat4("model", model);
             arbol.Draw(ourShader);
         }
+
+        // ---> C) BUCLE DE CASAS (MODIFICADO: MENOS CASAS) <---
+        float distCasas = 55.0f;
+        float scaleCasa = 0.02f;
+
+        // ¡AQUÍ ESTÁ EL TRUCO!
+        // Aumenta este número para separar más las casas.
+        // 20.0f = Muchas casas (pegadas). 100.0f = Pocas casas (dispersas).
+        float houseSpacing = 150.0f;
+
+        for (float z = startZ; z > endZ; z -= houseSpacing)
+        {
+            // Casa Izquierda
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-distCasas, -0.5f, z));
+            model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(scaleCasa));
+            ourShader.setMat4("model", model);
+            casaModel.Draw(ourShader);
+
+            // Casa Derecha
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(distCasas, -0.5f, z));
+            model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(scaleCasa));
+            ourShader.setMat4("model", model);
+            casaModel.Draw(ourShader);
+        }
+
         // Restaurar luces fuertes
         ourShader.setVec3("spotLight.diffuse", 5.0f, 5.0f, 5.0f);
         ourShader.setVec3("spotLight.specular", 5.0f, 5.0f, 5.0f);

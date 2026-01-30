@@ -1,0 +1,431 @@
+# Blender 5.0.1 MTL File: 'None'
+# www.blender.org
+
+newmtl BaseCasa
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd BaseCasa_baseColor.png
+map_Bump -bm 1.000000 BaseCasa_normal.png
+
+newmtl BaseDeco2
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd BaseDeco2_baseColor.png
+map_Bump -bm 1.000000 BaseDeco2_normal.png
+
+newmtl Escaleras
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Escaleras_baseColor.png
+map_Bump -bm 1.000000 Escaleras_normal.png
+
+newmtl Esfera001
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Esfera001_baseColor.png
+map_Bump -bm 1.000000 Esfera001_normal.png
+
+newmtl MarcoPuerta
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd MarcoPuerta_baseColor.png
+map_Bump -bm 1.000000 MarcoPuerta_normal.png
+
+newmtl Panel
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Panel_baseColor.png
+map_Bump -bm 1.000000 Panel_normal.png
+
+newmtl PanelA
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelA_baseColor.png
+map_Bump -bm 1.000000 PanelA_normal.png
+
+newmtl PanelB
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelB_baseColor.png
+map_Bump -bm 1.000000 PanelB_normal.png
+
+newmtl PanelC
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelC_baseColor.png
+map_Bump -bm 1.000000 PanelC_normal.png
+
+newmtl PanelD
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelD_baseColor.png
+map_Bump -bm 1.000000 PanelD_normal.png
+
+newmtl PanelE
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelE_baseColor.png
+map_Bump -bm 1.000000 PanelE_normal.png
+
+newmtl PanelF
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelF_baseColor.png
+map_Bump -bm 1.000000 PanelF_normal.png
+
+newmtl PanelG
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelG_baseColor.png
+map_Bump -bm 1.000000 PanelG_normal.png
+
+newmtl PanelH
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelH_baseColor.png
+map_Bump -bm 1.000000 PanelH_normal.png
+
+newmtl PanelI
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelI_baseColor.png
+map_Bump -bm 1.000000 PanelI_normal.png
+
+newmtl PanelJ
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelJ_baseColor.png
+map_Bump -bm 1.000000 PanelJ_normal.png
+
+newmtl PanelK
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelK_baseColor.png
+map_Bump -bm 1.000000 PanelK_normal.png
+
+newmtl PanelL
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelL_baseColor.png
+map_Bump -bm 1.000000 PanelL_normal.png
+
+newmtl PanelM
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelM_baseColor.png
+map_Bump -bm 1.000000 PanelM_normal.png
+
+newmtl PanelN
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelN_baseColor.png
+map_Bump -bm 1.000000 PanelN_normal.png
+
+newmtl PanelO
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelO_baseColor.png
+map_Bump -bm 1.000000 PanelO_normal.png
+
+newmtl PanelP
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelP_baseColor.png
+map_Bump -bm 1.000000 PanelP_normal.png
+
+newmtl PanelQ
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelQ_baseColor.png
+map_Bump -bm 1.000000 PanelQ_normal.png
+
+newmtl PanelR
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelR_baseColor.png
+map_Bump -bm 1.000000 PanelR_normal.png
+
+newmtl PanelS
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelS_baseColor.png
+map_Bump -bm 1.000000 PanelS_normal.png
+
+newmtl PanelX
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PanelX_baseColor.png
+map_Bump -bm 1.000000 PanelX_normal.png
+
+newmtl ParteInferior
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd ParteInferior_baseColor.png
+map_Bump -bm 1.000000 ParteInferior_normal.png
+
+newmtl PuertaMarco
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd PuertaMarco_baseColor.png
+map_Bump -bm 1.000000 PuertaMarco_normal.png
+
+newmtl SoportePrincipal
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd SoportePrincipal_baseColor.png
+map_Bump -bm 1.000000 SoportePrincipal_normal.png
+
+newmtl Tejas
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Tejas_baseColor.png
+map_Bump -bm 1.000000 Tejas_normal.png
+
+newmtl Tejas1
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Tejas1_baseColor.png
+map_Bump -bm 1.000000 Tejas1_normal.png
+
+newmtl Tejas2
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Tejas2_baseColor.png
+map_Bump -bm 1.000000 Tejas2_normal.png
+
+newmtl Tejas3
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Tejas3_baseColor.png
+map_Bump -bm 1.000000 Tejas3_normal.png
+
+newmtl TejasCortas
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd TejasCortas_baseColor.png
+map_Bump -bm 1.000000 TejasCortas_normal.png
+
+newmtl TejasCortas1
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd TejasCortas1_baseColor.png
+map_Bump -bm 1.000000 TejasCortas1_normal.png
+
+newmtl TejasCortas2
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd TejasCortas2_baseColor.png
+map_Bump -bm 1.000000 TejasCortas2_normal.png
+
+newmtl TejasCortas3
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd TejasCortas3_baseColor.png
+map_Bump -bm 1.000000 TejasCortas3_normal.png
+
+newmtl TejasSuperiores
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd TejasSuperiores_baseColor.png
+map_Bump -bm 1.000000 TejasSuperiores_normal.png
+
+newmtl VentanasPuerta
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd VentanasPuerta_baseColor.png
+map_Bump -bm 1.000000 VentanasPuerta_normal.png
