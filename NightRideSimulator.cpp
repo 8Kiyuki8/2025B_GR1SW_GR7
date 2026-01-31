@@ -62,12 +62,19 @@ float brakingPower = 80.0f;
 float maxSpeedNormal = 90.0f;
 float maxSpeedTurbo = 120.0f;
 
+glm::vec3 oldBikePos;
+
 // Posiciones de las luces REALES (Solo 4 para rendimiento)
 glm::vec3 pointLightPositions[] = {
     glm::vec3(0.0f, 4.5f, 100.0f),
     glm::vec3(0.0f, 4.5f, 60.0f),
     glm::vec3(0.0f, 4.5f, 20.0f),
     glm::vec3(0.0f, 4.5f, -20.0f)};
+
+bool checkCollision(glm::vec3 pos1, float radius1, glm::vec3 pos2, float radius2) {
+    float distance = glm::distance(glm::vec2(pos1.x, pos1.z), glm::vec2(pos2.x, pos2.z));
+    return distance < (radius1 + radius2);
+}
 
 int main()
 {
@@ -106,16 +113,16 @@ int main()
     stbi_set_flip_vertically_on_load(true);
 
     // MOTO
-    Model moto("C:/Users/pc/Documents/Visual Studio 2022/OpenGL/OpenGL/model/motorbike/motorbike.obj");
+    Model moto("C:/Users/Anna/Documents/Visual Studio 2022/OpenGL/OpenGL/model/motorbike/motorbike.obj");
 
     // POSTE DE LUZ
-    Model poste("C:/Users/pc/Documents/Visual Studio 2022/OpenGL/OpenGL/model/poste_de_luz/poste_de_luz.obj");
+    Model poste("C:/Users/Anna/Documents/Visual Studio 2022/OpenGL/OpenGL/model/poste_de_luz/poste_de_luz.obj");
 
     // ARBOL
-    Model arbol("C:/Users/pc/Documents/Visual Studio 2022/OpenGL/OpenGL/model/arbol/arbol.obj");
+    Model arbol("C:/Users/Anna/Documents/Visual Studio 2022/OpenGL/OpenGL/model/arbol/arbol.obj");
 
     // ---> AGREGADO: LA CASA <---
-    Model casaModel("C:/Users/pc/Documents/Visual Studio 2022/OpenGL/OpenGL/model/casa/casa.obj");
+    Model casaModel("C:/Users/Anna/Documents/Visual Studio 2022/OpenGL/OpenGL/model/casa/casa.obj");
 
     stbi_set_flip_vertically_on_load(false);
     // =================================================================================
@@ -365,6 +372,16 @@ int main()
         for (float z = startZ; z > endZ; z -= posteSpacing)
         {
             // --- POSTE ---
+            glm::vec3 postePos = glm::vec3(ajusteCentroX + 7.0f, -0.5f, z);
+
+            // --- DETECCIÓN DE COLISIÓN ---
+            // Radio moto, Radio poste
+            if (checkCollision(bikePos, 0.8f, postePos, 0.5f))
+            {
+                bikePos = oldBikePos; // Resetear posición
+                currentSpeed = 0;     // Detener moto
+            }
+
             ourShader.use();
             ourShader.setVec3("spotLight.diffuse", 0.5f, 0.5f, 0.5f);
             ourShader.setVec3("spotLight.specular", 0.5f, 0.5f, 0.5f);
@@ -402,12 +419,26 @@ int main()
         ourShader.setVec3("spotLight.diffuse", 0.8f, 0.8f, 0.8f);
         for (float z = startZ; z > endZ; z -= treeSpacing)
         {
+            // --- Árbol Derecho ---
+            glm::vec3 posArbolDer = glm::vec3(treeDist, -0.5f, z);
+            if (checkCollision(bikePos, 0.8f, posArbolDer, 0.5f)) // Radio de árbol un poco más ancho
+            {
+                bikePos = oldBikePos;
+                currentSpeed = 0.0f;
+            }
             model = glm::mat4(1.0f);
             model = glm::translate(model, glm::vec3(treeDist, -0.5f, z));
             model = glm::scale(model, glm::vec3(scaleArbol));
             ourShader.setMat4("model", model);
             arbol.Draw(ourShader);
 
+            // --- Árbol Izquierdo ---
+                glm::vec3 posArbolIzq = glm::vec3(-treeDist, -0.5f, z);
+            if (checkCollision(bikePos, 0.8f, posArbolIzq, 0.5f))
+            {
+                bikePos = oldBikePos;
+                currentSpeed = 0.0f;
+            }
             model = glm::mat4(1.0f);
             model = glm::translate(model, glm::vec3(-treeDist, -0.5f, z));
             model = glm::scale(model, glm::vec3(scaleArbol));
@@ -502,6 +533,12 @@ void processInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+    // GUARDAR POSICIÓN ANTES DE MOVER
+    oldBikePos = bikePos;
+
+    bikePos.x += -sin(glm::radians(bikeAngle)) * currentSpeed * deltaTime;
+    bikePos.z += -cos(glm::radians(bikeAngle)) * currentSpeed * deltaTime;
 
     if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
     {
