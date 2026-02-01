@@ -1,0 +1,132 @@
+# Blender 5.0.1 MTL File: 'None'
+# www.blender.org
+
+newmtl ETAGE1
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd ETAGE1_diffuse.jpeg
+map_Ns ETAGE1_specularGlossiness.png
+map_Bump -bm 1.000000 ETAGE1_normal.png
+
+newmtl ETAGES_SUP
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd ETAGES_SUP_diffuse.jpeg
+map_Ns ETAGES_SUP_specularGlossiness.png
+map_Ke ETAGES_SUP_emissive.jpeg
+map_Bump -bm 1.000000 ETAGES_SUP_normal.png
+
+newmtl Ground
+Ns 30.996521
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd Ground_diffuse.png
+
+newmtl INTERIOR
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+
+newmtl Material.001
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd Material_diffuse.png
+map_Ns Material_specularGlossiness.png
+map_Bump -bm 1.000000 Material_normal.png
+
+newmtl ORNEMENT
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd ORNEMENT_diffuse.png
+map_Ns ORNEMENT_specularGlossiness.png
+map_Bump -bm 1.000000 ORNEMENT_normal.png
+
+newmtl ORNEMENT2
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd ORNEMENT2_diffuse.png
+map_Ns ORNEMENT2_specularGlossiness.png
+map_Bump -bm 1.000000 ORNEMENT2_normal.png
+
+newmtl POTEAUX
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd POTEAUX_diffuse.png
+map_Ns POTEAUX_specularGlossiness.png
+map_Bump -bm 1.000000 POTEAUX_normal.png
+
+newmtl REMBARDE
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd REMBARDE_diffuse.png
+map_Ns REMBARDE_specularGlossiness.png
+map_Bump -bm 1.000000 REMBARDE_normal.png
+
+newmtl TOIT
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd TOIT_diffuse.jpeg
+map_Ns TOIT_specularGlossiness.png
+map_Bump -bm 1.000000 TOIT_normal.png
+
+newmtl TOIT2
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd TOIT2_diffuse.png
+map_Ns TOIT2_specularGlossiness.png
+map_Bump -bm 1.000000 TOIT2_normal.png
+
+newmtl black
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1000.000000
+d 1.000000
+illum 2
+map_Kd black_diffuse.png
+map_Ns black_specularGlossiness.png
+map_Bump -bm 1.000000 black_normal.png

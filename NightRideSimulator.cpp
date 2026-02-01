@@ -124,6 +124,9 @@ int main()
     // ---> AGREGADO: LA CASA <---
     Model casaModel("C:/Users/Anna/Documents/Visual Studio 2022/OpenGL/OpenGL/model/casa/casa.obj");
 
+    // TEMPLE
+    Model temple("C:/Users/Anna/Documents/Visual Studio 2022/OpenGL/OpenGL/model/temple/temple.obj");
+
     stbi_set_flip_vertically_on_load(false);
     // =================================================================================
 
@@ -458,6 +461,12 @@ int main()
         for (float z = startZ; z > endZ; z -= houseSpacing)
         {
             // Casa Izquierda
+            glm::vec3 posCasaIzq = glm::vec3(-distCasas - 11.0f, -0.5f, z - 6.0f);
+            if (checkCollision(bikePos, 0.8f, posCasaIzq, 14.0f)) // Radio de árbol un poco más ancho
+            {
+                bikePos = oldBikePos;
+                currentSpeed = 0.0f;
+            }
             model = glm::mat4(1.0f);
             model = glm::translate(model, glm::vec3(-distCasas, -0.5f, z));
             model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -466,6 +475,12 @@ int main()
             casaModel.Draw(ourShader);
 
             // Casa Derecha
+            glm::vec3 posCasaDer = glm::vec3(distCasas + 11.0f, -0.5f, z - 6.0f);
+            if (checkCollision(bikePos, 0.8f, posCasaDer, 14.0f)) // Radio de árbol un poco más ancho
+            {
+                bikePos = oldBikePos;
+                currentSpeed = 0.0f;
+            }
             model = glm::mat4(1.0f);
             model = glm::translate(model, glm::vec3(distCasas, -0.5f, z));
             model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -473,6 +488,21 @@ int main()
             ourShader.setMat4("model", model);
             casaModel.Draw(ourShader);
         }
+
+        // TEMPLE
+        float scaleTemple = 0.1f; // Ajusta el tamaño
+        glm::vec3 templePos = glm::vec3(0.0f, -0.5f, -2100.0f); // Guardamos la posición en una variable
+        if (checkCollision(bikePos, 0.8f, templePos, 26.0f))
+        {
+            bikePos = oldBikePos; // Resetear posición
+            currentSpeed = 0.0f;  // Detener la moto
+        }
+        ourShader.use();
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, -0.5f, -2100.0f)); // Posición fija
+        model = glm::scale(model, glm::vec3(scaleTemple));
+        ourShader.setMat4("model", model);
+        temple.Draw(ourShader);
 
         // Restaurar luces fuertes
         ourShader.setVec3("spotLight.diffuse", 5.0f, 5.0f, 5.0f);
