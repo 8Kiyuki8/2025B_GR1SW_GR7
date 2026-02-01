@@ -9,11 +9,8 @@
 #include <learnopengl/camera.h>
 #include <learnopengl/model.h>
 
-#include <irrKlang/irrKlang.h>
-
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <learnopengl/stb_image.h>
@@ -39,8 +36,6 @@ bool firstMouse = true;
 // --- JUGADOR (MOTO) ---
 glm::vec3 bikePos = glm::vec3(0.0f, -0.5f, 0.0f);
 float bikeAngle = 0.0f;
-const glm::vec3 initialBikePos = glm::vec3(0.0f, -0.5f, 0.0f);
-const float initialBikeAngle = 0.0f;
 
 // --- ESTADOS ---
 bool isFirstPerson = false;
@@ -67,21 +62,7 @@ float brakingPower = 80.0f;
 float maxSpeedNormal = 90.0f;
 float maxSpeedTurbo = 120.0f;
 
-// --- SONIDO ---
-irrklang::ISoundEngine *soundEngine = nullptr;
-irrklang::ISound *engineSound = nullptr;
-float collisionCooldown = 0.0f;
-
 glm::vec3 oldBikePos;
-
-// --- MONEDAS / TIEMPO ---
-std::vector<glm::vec3> coinPositions;
-std::vector<bool> coinCollected;
-int totalCoins = 0;
-float totalTimeLimit = 60.0f;
-float timeLeft = 60.0f;
-bool gameWon = false;
-bool gameLost = false;
 
 // Posiciones de las luces REALES (Solo 4 para rendimiento)
 glm::vec3 pointLightPositions[] = {
@@ -126,58 +107,25 @@ int main()
     Shader ourShader("shaders/shader_Examen_B2.vs", "shaders/shader_Examen_B2.fs");
     Shader lampShader("shaders/lamp.vs", "shaders/lamp.fs");
 
-    // 2.1 SONIDO
-    soundEngine = irrklang::createIrrKlangDevice();
-    if (!soundEngine)
-    {
-        std::cout << "No se pudo iniciar el sonido (irrKlang)." << std::endl;
-    }
-    else
-    {
-        engineSound = soundEngine->play2D("third_party/LearnOpenGL-master/resources/audio/breakout.mp3", true, false, true);
-        if (engineSound)
-            engineSound->setVolume(0.2f);
-    }
-
     // =================================================================================
     // 3. CARGAR MODELOS
     // =================================================================================
     stbi_set_flip_vertically_on_load(true);
 
     // MOTO
-    Model moto("model/motorbike/motorbike.obj");
+    Model moto("C:/Users/Anna/Documents/Visual Studio 2022/OpenGL/OpenGL/model/motorbike/motorbike.obj");
 
     // POSTE DE LUZ
-    Model poste("model/poste_de_luz/poste_de_luz.obj");
+    Model poste("C:/Users/Anna/Documents/Visual Studio 2022/OpenGL/OpenGL/model/poste_de_luz/poste_de_luz.obj");
 
     // ARBOL
-    Model arbol("model/arbol/arbol.obj");
+    Model arbol("C:/Users/Anna/Documents/Visual Studio 2022/OpenGL/OpenGL/model/arbol/arbol.obj");
 
     // ---> AGREGADO: LA CASA <---
-    Model casaModel("model/casa/casa.obj");
+    Model casaModel("C:/Users/Anna/Documents/Visual Studio 2022/OpenGL/OpenGL/model/casa/casa.obj");
 
     stbi_set_flip_vertically_on_load(false);
     // =================================================================================
-
-    // =================================================================================
-    // --- MONEDAS (INICIALIZACIÓN) ---
-    // =================================================================================
-    coinPositions.clear();
-    float coinStartZ = 80.0f;
-    float coinEndZ = -600.0f;
-    float coinSpacing = 40.0f;
-    float coinXLeft = -6.0f;
-    float coinXRight = 6.0f;
-    bool leftSide = true;
-    for (float z = coinStartZ; z >= coinEndZ; z -= coinSpacing)
-    {
-        float x = leftSide ? coinXLeft : coinXRight;
-        coinPositions.push_back(glm::vec3(x, 0.5f, z));
-        leftSide = !leftSide;
-    }
-    totalCoins = static_cast<int>(coinPositions.size());
-    coinCollected.assign(totalCoins, false);
-    timeLeft = totalTimeLimit;
 
     // 4. PISO GIGANTE
     float planeVertices[] = {
@@ -210,48 +158,7 @@ int main()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        if (collisionCooldown > 0.0f)
-            collisionCooldown -= deltaTime;
-
-        if (!gameWon && !gameLost)
-        {
-            timeLeft -= deltaTime;
-            if (timeLeft <= 0.0f)
-            {
-                timeLeft = 0.0f;
-                gameLost = true;
-            }
-        }
-
-        if (!gameWon && !gameLost)
-        {
-            processInput(window);
-        }
-        else
-        {
-            if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-                glfwSetWindowShouldClose(window, true);
-
-            if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-            {
-                bikePos = initialBikePos;
-                bikeAngle = initialBikeAngle;
-                oldBikePos = bikePos;
-                currentSpeed = 0.0f;
-                isFirstPerson = false;
-                isBraking = false;
-                collisionCooldown = 0.0f;
-                timeLeft = totalTimeLimit;
-                gameWon = false;
-                gameLost = false;
-                for (size_t i = 0; i < coinCollected.size(); ++i)
-                    coinCollected[i] = false;
-            }
-            else
-            {
-                currentSpeed = 0.0f;
-            }
-        }
+        processInput(window);
 
         // --- CÁMARA ---
         if (isFirstPerson)
@@ -439,8 +346,6 @@ int main()
         // --- MAPA: AVENIDA CENTRAL ---
         // =================================================================================
 
-        bool collided = false;
-
         // --- VARIABLES DE CALIBRACIÓN (TUS VALORES ORIGINALES) ---
         float scalePoste = 350.0f;
         float scaleArbol = 30.0f;
@@ -475,7 +380,6 @@ int main()
             {
                 bikePos = oldBikePos; // Resetear posición
                 currentSpeed = 0;     // Detener moto
-                collided = true;
             }
 
             ourShader.use();
@@ -521,7 +425,6 @@ int main()
             {
                 bikePos = oldBikePos;
                 currentSpeed = 0.0f;
-                collided = true;
             }
             model = glm::mat4(1.0f);
             model = glm::translate(model, glm::vec3(treeDist, -0.5f, z));
@@ -535,7 +438,6 @@ int main()
             {
                 bikePos = oldBikePos;
                 currentSpeed = 0.0f;
-                collided = true;
             }
             model = glm::mat4(1.0f);
             model = glm::translate(model, glm::vec3(-treeDist, -0.5f, z));
@@ -586,105 +488,8 @@ int main()
         lampShader.setMat4("model", model);
         renderSphere();
 
-        // --- MONEDAS (COLECCIÓN Y RENDER) ---
-        int collectedCount = 0;
-        for (size_t i = 0; i < coinPositions.size(); ++i)
-        {
-            if (coinCollected[i])
-            {
-                collectedCount++;
-                continue;
-            }
-
-            if (!gameWon && !gameLost && checkCollision(bikePos, 0.8f, coinPositions[i], 0.6f))
-            {
-                coinCollected[i] = true;
-                collectedCount++;
-                if (soundEngine)
-                    soundEngine->play2D("third_party/LearnOpenGL-master/resources/audio/powerup.wav", false);
-                continue;
-            }
-
-            lampShader.use();
-            lampShader.setMat4("projection", projection);
-            lampShader.setMat4("view", view);
-            lampShader.setVec3("lightColor", glm::vec3(1.0f, 0.85f, 0.1f));
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, coinPositions[i]);
-            model = glm::scale(model, glm::vec3(0.5f));
-            lampShader.setMat4("model", model);
-            renderSphere();
-        }
-
-        if (!gameWon && !gameLost && collectedCount >= totalCoins)
-        {
-            gameWon = true;
-        }
-
-        // --- SONIDO (motor y colisión) ---
-        if (engineSound)
-        {
-            float speedAbs = fabs(currentSpeed);
-            float t = speedAbs / maxSpeedTurbo;
-            if (t > 1.0f)
-                t = 1.0f;
-            float baseVolume = 0.15f;
-            float maxVolume = 0.7f;
-            engineSound->setVolume(baseVolume + (maxVolume - baseVolume) * t);
-        }
-
-        if (collided && collisionCooldown <= 0.0f && soundEngine)
-        {
-            soundEngine->play2D("third_party/LearnOpenGL-master/resources/audio/bleep.wav", false);
-            collisionCooldown = 0.5f;
-        }
-
-        // --- VELOCÍMETRO (barra 2D) ---
-        float speedAbs = fabs(currentSpeed);
-        float speedNorm = speedAbs / maxSpeedTurbo;
-        if (speedNorm > 1.0f)
-            speedNorm = 1.0f;
-
-        glDisable(GL_DEPTH_TEST);
-        lampShader.use();
-        glm::mat4 ortho = glm::ortho(0.0f, (float)SCR_WIDTH, 0.0f, (float)SCR_HEIGHT, -1.0f, 1.0f);
-        lampShader.setMat4("projection", ortho);
-        lampShader.setMat4("view", glm::mat4(1.0f));
-
-        float barWidth = 260.0f;
-        float barHeight = 18.0f;
-        float barX = 20.0f;
-        float barY = 20.0f;
-
-        // Fondo
-        lampShader.setVec3("lightColor", glm::vec3(0.15f, 0.15f, 0.15f));
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(barX + barWidth * 0.5f, barY + barHeight * 0.5f, 0.0f));
-        model = glm::scale(model, glm::vec3(barWidth, barHeight, 1.0f));
-        lampShader.setMat4("model", model);
-        renderCube();
-
-        // Barra de velocidad
-        glm::vec3 speedColor = glm::mix(glm::vec3(0.1f, 0.9f, 0.2f), glm::vec3(0.9f, 0.1f, 0.1f), speedNorm);
-        lampShader.setVec3("lightColor", speedColor);
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(barX + (barWidth * speedNorm) * 0.5f, barY + barHeight * 0.5f, 0.0f));
-        model = glm::scale(model, glm::vec3(barWidth * speedNorm, barHeight, 1.0f));
-        lampShader.setMat4("model", model);
-        renderCube();
-        glEnable(GL_DEPTH_TEST);
-
         int velocidadDisplay = abs((int)currentSpeed);
-        int remainingCoins = totalCoins - collectedCount;
-        std::string status = "";
-        if (gameWon)
-            status = " | GANASTE";
-        else if (gameLost)
-            status = " | PERDISTE";
-
-        std::string title = "Night Ride | Velocidad: " + std::to_string(velocidadDisplay) +
-                            " km/h | Monedas: " + std::to_string(remainingCoins) +
-                            " | Tiempo: " + std::to_string((int)timeLeft) + "s" + status;
+        std::string title = "Night Ride | Velocidad: " + std::to_string(velocidadDisplay) + " km/h";
         glfwSetWindowTitle(window, title.c_str());
 
         glfwSwapBuffers(window);
@@ -694,10 +499,6 @@ int main()
     glDeleteVertexArrays(1, &planeVAO);
     glDeleteBuffers(1, &planeVBO);
     glfwTerminate();
-    if (engineSound)
-        engineSound->drop();
-    if (soundEngine)
-        soundEngine->drop();
     return 0;
 }
 
