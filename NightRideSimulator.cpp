@@ -34,7 +34,7 @@ float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
 
 // --- JUGADOR (MOTO) ---
-glm::vec3 bikePos = glm::vec3(0.0f, -0.5f, 0.0f);
+glm::vec3 bikePos = glm::vec3(0.0f, -0.4f, 0.0f);
 float bikeAngle = 0.0f;
 
 // --- ESTADOS ---
@@ -276,7 +276,7 @@ int main()
         lampShader.setVec3("lightColor", tailColor);
 
         // --- CALIBRACIÓN DE POSICIÓN ---
-        float h = 1.1f;     // Altura
+        float h = 1.2f;     // Altura
         float backX = 4.3f; // Profundidad (Atrás)
         float sepZ = 0.20f; // Separación entre focos
 
@@ -324,7 +324,7 @@ int main()
 
         // 2. Posición
         float frontX = 0.6f;     // Tu valor
-        float alturaFaro = 1.6f; // Tu valor
+        float alturaFaro = 1.7f; // Tu valor
 
         // Corrección de centro (Mismo valor que las luces traseras)
         // Esto mueve la luz hacia la izquierda de la pantalla para centrarla.
@@ -619,7 +619,7 @@ void processInput(GLFWwindow *window)
 
     bikePos.x += -sin(glm::radians(bikeAngle)) * currentSpeed * deltaTime;
     bikePos.z += -cos(glm::radians(bikeAngle)) * currentSpeed * deltaTime;
-    bikePos.y = -0.5f;
+    bikePos.y = -0.4f;
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) { glViewport(0, 0, width, height); }
