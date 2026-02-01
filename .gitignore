@@ -1,16 +1,45 @@
+# ===============================
 # Visual Studio
+# ===============================
 .vs/
 x64/
 Debug/
 Release/
-*.vcxproj.user
-*.VC.db
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.obj
+*.tlog
+*.log
+*.idb
 *.opendb
+*.VC.db
+*.vcxproj.user
 
-# Temporales
-*.vcf~
-*.tmp
+# ===============================
+# CMake / build
+# ===============================
+build/
+out/
 
-# Sistema
+# ===============================
+# External / third-party libs
+# (installed locally, not repo)
+# ===============================
+external/
+third_party/glfw/
+third_party/GLFW/
+third_party/glm/
+third_party/glm-*/
+third_party/assimp/
+third_party/vcpkg/
+vcpkg_installed/
+
+# ===============================
+# OS / temp
+# ===============================
 Thumbs.db
 .DS_Store
+*.tmp
+*.vcf~

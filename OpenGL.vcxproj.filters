@@ -21,7 +21,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Desktop\Sources\glad\src\glad.c">
+    <ClCompile Include="external\glad\src\glad.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="NightRideSimulator.cpp">
@@ -35,5 +35,13 @@
     <None Include="shaders\vertexshader.vs">
       <Filter>Archivos de origen\shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="third_party\glad\include\glad\glad.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\GLFW\glfw3.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
