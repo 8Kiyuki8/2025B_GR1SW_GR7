@@ -78,8 +78,9 @@ glm::vec3 oldBikePos;
 std::vector<glm::vec3> coinPositions;
 std::vector<bool> coinCollected;
 int totalCoins = 0;
-float totalTimeLimit = 60.0f;
-float timeLeft = 60.0f;
+int desiredCoinCount = 16;
+float totalTimeLimit = 90.0f;
+float timeLeft = 90.0f;
 bool gameWon = false;
 bool gameLost = false;
 
@@ -165,12 +166,14 @@ int main()
     coinPositions.clear();
     float coinStartZ = 80.0f;
     float coinEndZ = -600.0f;
-    float coinSpacing = 40.0f;
+    int coinCount = desiredCoinCount < 1 ? 1 : desiredCoinCount;
+    float coinSpacing = (coinCount > 1) ? (coinStartZ - coinEndZ) / (coinCount - 1) : 0.0f;
     float coinXLeft = -6.0f;
     float coinXRight = 6.0f;
     bool leftSide = true;
-    for (float z = coinStartZ; z >= coinEndZ; z -= coinSpacing)
+    for (int i = 0; i < coinCount; ++i)
     {
+        float z = coinStartZ - (coinSpacing * i);
         float x = leftSide ? coinXLeft : coinXRight;
         coinPositions.push_back(glm::vec3(x, 0.5f, z));
         leftSide = !leftSide;
